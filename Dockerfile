@@ -1,13 +1,13 @@
-FROM lucasmarfe/gradle-jdk17 as buildJar
+# 构建阶段
+FROM gradle:8.5.0-jdk17 AS builder
 WORKDIR /app
 COPY . .
-# 不再清空 static 目录，也不再复制前端构建产物
-# RUN rm -rf server/src/main/resources/static/*
-# COPY --from=buildDist /app/frontend/dist /server/src/main/resources/static/
-# 复制前端文件到 flask 目录（如有需要可保留）
-RUN cd /app/server && rm -rf build && gradle build
-RUN cd /app/server/build/libs && mv server-0.0.1-SNAPSHOT.jar /app/server.jar
-EXPOSE 8080
+RUN cd server && gradle build
 
-# 在容器中运行 Gunicorn 服务器
-CMD ["java" , "-jar" , "/app/server.jar"]
+# 运行阶段
+FROM eclipse-temurin:17-jre-jammy
+WORKDIR /app
+COPY --from=builder /app/server/build/libs/server-0.0.1-SNAPSHOT.jar /app/server.jar
+COPY server/src/main/resources/static /app/server/src/main/resources/static
+EXPOSE 8080
+CMD ["java", "-jar", "/app/server.jar"]
