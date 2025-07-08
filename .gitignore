@@ -1,0 +1,8 @@
+.idea
+frontend/node_modules
+frontend/dist
+server/build
+server/.gradle/
+server/src/test
+server/src/main/resources/static/
+.vscode

@@ -1,0 +1,2712 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>太平金融 - 未知遗产查询与财富管理服务</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+        <script src="https://cdn.tailwindcss.com"></script>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+
+            body {
+                font-family: 'Noto Sans SC', sans-serif;
+                line-height: 1.6;
+                color: #333;
+            }
+
+            .serif {
+                font-family: 'Noto Serif SC', serif;
+            }
+
+            .hero-gradient {
+                background: linear-gradient(135deg, #1a3a8f 0%, #0d6e9e 100%);
+            }
+
+            .service-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            }
+
+            .asset-item {
+                transition: all 0.3s ease;
+            }
+
+            .asset-item:hover {
+                background-color: #f8fafc;
+            }
+
+            .magazine-border {
+                border-left: 4px solid #1a3a8f;
+            }
+
+            .case-study {
+                background: linear-gradient(to right, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.9) 100%),
+                    url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')
+                        no-repeat center center;
+                background-size: cover;
+            }
+
+            .tech-bg {
+                background: linear-gradient(to right, rgba(26, 58, 143, 0.9) 0%, rgba(13, 110, 158, 0.9) 100%),
+                    url('https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')
+                        no-repeat center center;
+                background-size: cover;
+            }
+
+            /* 问答系统样式 */
+            .questionnaire-container {
+                display: none;
+            }
+
+            .questionnaire-container.active {
+                display: block;
+            }
+
+            .question-card {
+                background: #f8fafc;
+                border: 1px solid #e2e8f0;
+                border-radius: 8px;
+                padding: 24px;
+                margin-bottom: 24px;
+            }
+
+            .question-title {
+                font-size: 18px;
+                font-weight: 600;
+                color: #1a202c;
+                margin-bottom: 16px;
+            }
+
+            .question-help {
+                background: #ebf8ff;
+                border: 1px solid #bee3f8;
+                border-radius: 6px;
+                padding: 12px;
+                margin-bottom: 16px;
+                font-size: 14px;
+                color: #2c5282;
+            }
+
+            .option-group {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .option-item {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                cursor: pointer;
+                padding: 8px;
+                border-radius: 4px;
+                transition: background-color 0.2s;
+            }
+
+            .option-item:hover {
+                background-color: #f7fafc;
+            }
+
+            .option-item input[type='radio'],
+            .option-item input[type='checkbox'] {
+                margin: 0;
+            }
+
+            .progress-bar {
+                width: 100%;
+                background-color: #e2e8f0;
+                border-radius: 9999px;
+                height: 12px;
+                margin-bottom: 24px;
+            }
+
+            .progress-fill {
+                background-color: #1a365d;
+                height: 12px;
+                border-radius: 9999px;
+                transition: width 0.5s ease-out;
+            }
+
+            .nav-button {
+                padding: 12px 24px;
+                border-radius: 8px;
+                font-weight: 500;
+                transition: all 0.3s;
+                cursor: pointer;
+                border: none;
+            }
+
+            .nav-button.primary {
+                background-color: #ea580c;
+                color: white;
+            }
+
+            .nav-button.primary:hover:not(:disabled) {
+                background-color: #c2410c;
+            }
+
+            .nav-button.secondary {
+                background-color: white;
+                color: #374151;
+                border: 1px solid #d1d5db;
+            }
+
+            .nav-button.secondary:hover:not(:disabled) {
+                background-color: #f9fafb;
+            }
+
+            .nav-button:disabled {
+                background-color: #d1d5db;
+                color: #9ca3af;
+                cursor: not-allowed;
+            }
+
+            .warning-box {
+                background-color: #fef2f2;
+                border: 1px solid #fecaca;
+                border-radius: 8px;
+                padding: 24px;
+                margin-bottom: 24px;
+            }
+
+            .warning-title {
+                color: #991b1b;
+                font-weight: 600;
+                margin-bottom: 8px;
+            }
+
+            .warning-content {
+                color: #7f1d1d;
+                margin-bottom: 16px;
+            }
+
+            /* 结果页面样式 */
+            .results-container {
+                display: none;
+            }
+
+            .results-container.active {
+                display: block;
+            }
+
+            .solution-card {
+                background: white;
+                border: 1px solid #e2e8f0;
+                border-radius: 8px;
+                padding: 24px;
+                box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+                transition: all 0.2s;
+                cursor: pointer;
+            }
+
+            .solution-card:hover {
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+                transform: translateY(-2px);
+            }
+
+            .solution-title {
+                font-size: 20px;
+                font-weight: 600;
+                color: #1a202c;
+                margin-bottom: 12px;
+            }
+
+            .solution-description {
+                color: #4a5568;
+                margin-bottom: 16px;
+            }
+
+            .solution-steps {
+                margin-bottom: 16px;
+            }
+
+            .solution-step {
+                display: flex;
+                align-items: flex-start;
+                margin-bottom: 8px;
+            }
+
+            .solution-step-number {
+                background-color: #3182ce;
+                color: white;
+                border-radius: 50%;
+                width: 20px;
+                height: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 12px;
+                font-weight: 600;
+                margin-right: 8px;
+                flex-shrink: 0;
+            }
+
+            .contact-modal {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: rgba(0, 0, 0, 0.5);
+                display: none;
+                align-items: center;
+                justify-content: center;
+                z-index: 1000;
+                padding: 16px;
+            }
+
+            .contact-modal.active {
+                display: flex;
+            }
+
+            .contact-modal-content {
+                background: white;
+                border-radius: 8px;
+                box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+                max-width: 28rem;
+                width: 100%;
+                max-height: 90vh;
+                overflow-y: auto;
+            }
+
+            .contact-modal-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 24px;
+                border-bottom: 1px solid #e2e8f0;
+            }
+
+            .contact-modal-title {
+                font-size: 20px;
+                font-weight: 600;
+                color: #1a202c;
+            }
+
+            .contact-modal-close {
+                color: #9ca3af;
+                cursor: pointer;
+                transition: color 0.2s;
+            }
+
+            .contact-modal-close:hover {
+                color: #4b5563;
+            }
+
+            .contact-modal-body {
+                padding: 24px;
+            }
+
+            .form-group {
+                margin-bottom: 16px;
+            }
+
+            .form-label {
+                display: block;
+                font-size: 14px;
+                font-weight: 500;
+                color: #374151;
+                margin-bottom: 4px;
+            }
+
+            .form-input {
+                width: 100%;
+                padding: 12px;
+                border: 1px solid #d1d5db;
+                border-radius: 8px;
+                font-size: 14px;
+            }
+
+            .form-input:focus {
+                outline: none;
+                border-color: #3b82f6;
+                box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            }
+
+            .form-textarea {
+                resize: none;
+                height: 96px;
+            }
+
+            .form-buttons {
+                display: flex;
+                gap: 12px;
+                padding-top: 16px;
+            }
+
+            .form-button {
+                flex: 1;
+                padding: 12px 16px;
+                border-radius: 8px;
+                font-weight: 500;
+                cursor: pointer;
+                transition: all 0.2s;
+            }
+
+            .form-button.secondary {
+                background: white;
+                border: 1px solid #d1d5db;
+                color: #374151;
+            }
+
+            .form-button.secondary:hover {
+                background: #f9fafb;
+            }
+
+            .form-button.primary {
+                background: #ea580c;
+                border: 1px solid #ea580c;
+                color: white;
+            }
+
+            .form-button.primary:hover {
+                background: #c2410c;
+            }
+
+            .success-message {
+                text-align: center;
+                padding: 32px;
+            }
+
+            .success-title {
+                color: #059669;
+                font-size: 18px;
+                font-weight: 500;
+                margin-bottom: 16px;
+            }
+
+            .success-content {
+                color: #4b5563;
+                margin-bottom: 24px;
+            }
+
+            .qr-section {
+                background: #f9fafb;
+                border-radius: 8px;
+                padding: 24px;
+                margin-bottom: 16px;
+            }
+
+            .qr-header {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 16px;
+            }
+
+            .qr-title {
+                font-size: 18px;
+                font-weight: 500;
+                color: #1f2937;
+                margin-left: 8px;
+            }
+
+            .qr-code-container {
+                background: white;
+                border-radius: 8px;
+                padding: 16px;
+                display: inline-block;
+                box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            }
+
+            .qr-placeholder {
+                width: 192px;
+                height: 192px;
+                background: #e5e7eb;
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+            }
+
+            .qr-features {
+                font-size: 14px;
+                color: #4b5563;
+                margin-top: 16px;
+            }
+
+            .qr-features p {
+                margin-bottom: 4px;
+            }
+        </style>
+    </head>
+    <body class="bg-gray-50">
+        <!-- 导航栏 -->
+        <nav class="bg-white shadow-md sticky top-0 z-50">
+            <div class="container mx-auto px-6 py-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <!-- <img
+                            src="https://ecustomercdn.itaiping.com/static/TPTSQ_FILES/share.png"
+                            alt="太平金融"
+                            class="h-12"
+                            style="height: 36px"
+                        /> -->
+                        <div class="text-gray-800 hover:text-blue-700 font-medium">太平金融</div>
+                    </div>
+                    <div class="hidden md:flex items-center space-x-8">
+                        <a href="#services" class="text-gray-800 hover:text-blue-700 font-medium">服务项目</a>
+                        <a href="#assets" class="text-gray-800 hover:text-blue-700 font-medium">易忽略资产</a>
+                        <a href="#cases" class="text-gray-800 hover:text-blue-700 font-medium">案例分享</a>
+                        <a href="#about" class="text-gray-800 hover:text-blue-700 font-medium">关于我们</a>
+                        <button
+                            id="startQuestionnaireBtn"
+                            class="bg-orange-600 text-white px-4 py-2 rounded-md hover:bg-orange-700 transition duration-300"
+                        >
+                            遗产查询引导
+                        </button>
+                    </div>
+                    <div class="md:hidden">
+                        <button class="text-gray-800 focus:outline-none">
+                            <i class="fas fa-bars text-2xl"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- 主页内容 -->
+        <div id="landingPage">
+            <!-- 英雄区域 -->
+            <header class="hero-gradient text-white">
+                <div class="container mx-auto px-6 py-24 md:py-32">
+                    <div class="max-w-3xl mx-auto text-center">
+                        <h1 class="text-4xl md:text-5xl font-bold mb-6 serif">为您揭开未知遗产的神秘面纱</h1>
+                        <p class="text-xl md:text-2xl mb-8 leading-relaxed">
+                            太平金融专业遗产查询服务，帮助您发现可能被忽略的家族资产，合法合规完成遗产过户与管理
+                        </p>
+                        <div class="flex flex-col sm:flex-row justify-center gap-4">
+                            <button
+                                id="heroQuestionnaireBtn"
+                                class="bg-orange-600 text-white px-8 py-3 rounded-md font-medium hover:bg-orange-700 transition duration-300"
+                            >
+                                开始遗产查询引导
+                            </button>
+                            <a
+                                href="#services"
+                                class="border-2 border-white text-white px-8 py-3 rounded-md font-medium hover:bg-white hover:text-blue-800 transition duration-300"
+                                >了解服务</a
+                            >
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- 数据统计 -->
+            <section class="bg-gray-100 py-12">
+                <div class="container mx-auto px-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                        <div class="bg-white p-8 rounded-lg shadow-sm">
+                            <div class="text-4xl font-bold text-blue-700 mb-2">75%</div>
+                            <div class="text-gray-600">家庭存在未被发现的遗产资产</div>
+                        </div>
+                        <div class="bg-white p-8 rounded-lg shadow-sm">
+                            <div class="text-4xl font-bold text-blue-700 mb-2">10+</div>
+                            <div class="text-gray-600">种常见易被忽略的资产类型</div>
+                        </div>
+                        <div class="bg-white p-8 rounded-lg shadow-sm">
+                            <div class="text-4xl font-bold text-blue-700 mb-2">98%</div>
+                            <div class="text-gray-600">客户对我们的服务表示满意</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 服务项目 -->
+            <section id="services" class="py-16 bg-white">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-16">
+                        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4 serif">专业资产查询服务</h2>
+                        <div class="w-20 h-1 bg-blue-700 mx-auto mb-6"></div>
+                        <p class="max-w-2xl mx-auto text-gray-600">
+                            太平金融提供全方位遗产相关服务，央企背景保障，专业团队支持
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <div class="service-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300">
+                            <div class="h-48 bg-blue-100 flex items-center justify-center">
+                                <i class="fas fa-search text-6xl text-blue-700"></i>
+                            </div>
+                            <div class="p-6">
+                                <h3 class="text-xl font-bold mb-3 text-gray-800">未知遗产查询</h3>
+                                <p class="text-gray-600 mb-4">
+                                    专业调查可能存在的未知遗产，包括银行存款、证券账户、保险产品等各类资产
+                                </p>
+                                <button class="start-questionnaire text-blue-700 font-medium hover:underline">
+                                    立即咨询
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="service-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300">
+                            <div class="h-48 bg-green-100 flex items-center justify-center">
+                                <i class="fas fa-file-signature text-6xl text-green-700"></i>
+                            </div>
+                            <div class="p-6">
+                                <h3 class="text-xl font-bold mb-3 text-gray-800">遗产过户代办</h3>
+                                <p class="text-gray-600 mb-4">
+                                    专业代办各类遗产过户手续，包括房产、车辆、股权等，简化复杂流程
+                                </p>
+                                <button class="start-questionnaire text-green-700 font-medium hover:underline">
+                                    了解详情
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="service-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300">
+                            <div class="h-48 bg-purple-100 flex items-center justify-center">
+                                <i class="fas fa-chart-line text-6xl text-purple-700"></i>
+                            </div>
+                            <div class="p-6">
+                                <h3 class="text-xl font-bold mb-3 text-gray-800">财富管理</h3>
+                                <p class="text-gray-600 mb-4">
+                                    专业财富管理团队，为继承资产提供保值增值方案，实现长期稳健收益
+                                </p>
+                                <button class="start-questionnaire text-purple-700 font-medium hover:underline">
+                                    获取方案
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="service-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300">
+                            <div class="h-48 bg-yellow-100 flex items-center justify-center">
+                                <i class="fas fa-book-open text-6xl text-yellow-700"></i>
+                            </div>
+                            <div class="p-6">
+                                <h3 class="text-xl font-bold mb-3 text-gray-800">老人回忆录</h3>
+                                <p class="text-gray-600 mb-4">
+                                    专业团队协助整理家族历史与老人回忆，留存珍贵记忆与无形遗产
+                                </p>
+                                <button class="start-questionnaire text-yellow-700 font-medium hover:underline">
+                                    开始记录
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 易忽略资产 -->
+            <section id="assets" class="py-16 bg-gray-50">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-16">
+                        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4 serif">易被忽略的遗产资产</h2>
+                        <div class="w-20 h-1 bg-blue-700 mx-auto mb-6"></div>
+                        <p class="max-w-2xl mx-auto text-gray-600">
+                            许多家庭资产因各种原因被遗忘或忽略，我们帮您全面排查这些潜在财富
+                        </p>
+                    </div>
+
+                    <div class="max-w-4xl mx-auto">
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden mb-8">
+                            <div class="grid grid-cols-1 md:grid-cols-3">
+                                <div class="md:col-span-2 p-8">
+                                    <h3 class="text-2xl font-bold mb-4 text-gray-800">金融类资产</h3>
+                                    <ul class="space-y-4">
+                                        <li class="asset-item p-3 rounded-md">
+                                            <div class="flex items-start">
+                                                <div class="flex-shrink-0 mt-1">
+                                                    <i class="fas fa-university text-blue-600"></i>
+                                                </div>
+                                                <div class="ml-3">
+                                                    <h4 class="font-medium text-gray-800">休眠银行账户</h4>
+                                                    <p class="text-gray-600 text-sm">
+                                                        长期未使用的储蓄账户、定期存款等，可能因银行合并、更名而被遗忘
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="asset-item p-3 rounded-md">
+                                            <div class="flex items-start">
+                                                <div class="flex-shrink-0 mt-1">
+                                                    <i class="fas fa-chart-bar text-green-600"></i>
+                                                </div>
+                                                <div class="ml-3">
+                                                    <h4 class="font-medium text-gray-800">证券投资账户</h4>
+                                                    <p class="text-gray-600 text-sm">
+                                                        股票、基金、债券等金融产品，可能因时间久远或账户变动而遗忘
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="asset-item p-3 rounded-md">
+                                            <div class="flex items-start">
+                                                <div class="flex-shrink-0 mt-1">
+                                                    <i class="fas fa-shield-alt text-purple-600"></i>
+                                                </div>
+                                                <div class="ml-3">
+                                                    <h4 class="font-medium text-gray-800">保险产品</h4>
+                                                    <p class="text-gray-600 text-sm">
+                                                        寿险、年金、分红险等，特别是早期购买的纸质保单容易被忽略
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div
+                                    class="hidden md:block bg-blue-50 bg-cover bg-center"
+                                    style="
+                                        background-image: url('https://images.unsplash.com/photo-1553729459-efe14ef6055d?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80');
+                                    "
+                                ></div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden mb-8">
+                            <div class="grid grid-cols-1 md:grid-cols-3">
+                                <div
+                                    class="hidden md:block bg-purple-50 bg-cover bg-center"
+                                    style="
+                                        background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80');
+                                    "
+                                ></div>
+                                <div class="md:col-span-2 p-8">
+                                    <h3 class="text-2xl font-bold mb-4 text-gray-800">数字与知识产权</h3>
+                                    <ul class="space-y-4">
+                                        <li class="asset-item p-3 rounded-md">
+                                            <div class="flex items-start">
+                                                <div class="flex-shrink-0 mt-1">
+                                                    <i class="fas fa-coins text-amber-600"></i>
+                                                </div>
+                                                <div class="ml-3">
+                                                    <h4 class="font-medium text-gray-800">数字货币</h4>
+                                                    <p class="text-gray-600 text-sm">
+                                                        比特币等加密货币资产，可能因私钥保管不善而无法继承
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="asset-item p-3 rounded-md">
+                                            <div class="flex items-start">
+                                                <div class="flex-shrink-0 mt-1">
+                                                    <i class="fas fa-copyright text-teal-600"></i>
+                                                </div>
+                                                <div class="ml-3">
+                                                    <h4 class="font-medium text-gray-800">知识产权</h4>
+                                                    <p class="text-gray-600 text-sm">
+                                                        专利、著作权、商标等无形资产，可能产生持续收益
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="asset-item p-3 rounded-md">
+                                            <div class="flex items-start">
+                                                <div class="flex-shrink-0 mt-1">
+                                                    <i class="fas fa-user-secret text-gray-600"></i>
+                                                </div>
+                                                <div class="ml-3">
+                                                    <h4 class="font-medium text-gray-800">数字账户</h4>
+                                                    <p class="text-gray-600 text-sm">
+                                                        各类网络账户中的余额、虚拟财产等数字资产
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 案例分享 -->
+            <section id="cases" class="case-study py-16">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-16">
+                        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4 serif">成功案例分享</h2>
+                        <div class="w-20 h-1 bg-blue-700 mx-auto mb-6"></div>
+                        <p class="max-w-2xl mx-auto text-gray-700">我们帮助众多家庭发现并继承了被遗忘的资产</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                            <div
+                                class="h-48 bg-cover bg-center"
+                                style="
+                                    background-image: url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-1.2.1&auto=format&fit=crop&w=633&q=80');
+                                "
+                            ></div>
+                            <div class="p-6">
+                                <div class="flex items-center mb-4">
+                                    <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                                        银行存款
+                                    </div>
+                                </div>
+                                <h3 class="text-xl font-bold mb-3 text-gray-800">发现30年前被遗忘的定期存款</h3>
+                                <p class="text-gray-600 mb-4">
+                                    我们帮助李女士查询到其父亲30年前在某银行的一笔定期存款，因银行多次合并重组，家人完全不知情。经过专业查询和手续办理，成功继承该笔资产。
+                                </p>
+                                <div class="flex items-center">
+                                    <div class="bg-blue-700 text-white px-4 py-1 rounded-md text-sm font-medium">
+                                        金额：¥280,000
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                            <div
+                                class="h-48 bg-cover bg-center"
+                                style="
+                                    background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80');
+                                "
+                            ></div>
+                            <div class="p-6">
+                                <div class="flex items-center mb-4">
+                                    <div class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
+                                        企业年金
+                                    </div>
+                                </div>
+                                <h3 class="text-xl font-bold mb-3 text-gray-800">找回遗漏的企业年金</h3>
+                                <p class="text-gray-600 mb-4">
+                                    王先生曾在多个城市、多个企业就职，涉及不同企业的年金及福利。我们通过历史档案查询和走访的程序，帮助王先生成功找回遗漏资产。
+                                </p>
+                                <div class="flex items-center">
+                                    <div class="bg-green-700 text-white px-4 py-1 rounded-md text-sm font-medium">
+                                        价值：¥300,000
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                            <div
+                                class="h-48 bg-cover bg-center"
+                                style="
+                                    background-image: url('https://images.unsplash.com/photo-1621761191319-c6fb62004040?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80');
+                                "
+                            ></div>
+                            <div class="p-6">
+                                <div class="flex items-center mb-4">
+                                    <div
+                                        class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-medium"
+                                    >
+                                        保险
+                                    </div>
+                                </div>
+                                <h3 class="text-xl font-bold mb-3 text-gray-800">发现20年前的寿险保单</h3>
+                                <p class="text-gray-600 mb-4">
+                                    我们为张先生查询到其父亲在1998年购买的一份寿险保单，纸质保单已遗失，家人完全不知情。经过专业查询，成功办理理赔手续。
+                                </p>
+                                <div class="flex items-center">
+                                    <div class="bg-purple-700 text-white px-4 py-1 rounded-md text-sm font-medium">
+                                        理赔金：¥500,000
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                            <div
+                                class="h-48 bg-cover bg-center"
+                                style="
+                                    background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80');
+                                "
+                            ></div>
+                            <div class="p-6">
+                                <div class="flex items-center mb-4">
+                                    <div
+                                        class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium"
+                                    >
+                                        知识产权
+                                    </div>
+                                </div>
+                                <h3 class="text-xl font-bold mb-3 text-gray-800">继承有价值的专利技术</h3>
+                                <p class="text-gray-600 mb-4">
+                                    我们帮助刘女士发现并继承了其父亲作为发明人的三项专利技术，这些专利仍在有效期内并产生许可收益，家人原先完全不知情。
+                                </p>
+                                <div class="flex items-center">
+                                    <div class="bg-yellow-600 text-white px-4 py-1 rounded-md text-sm font-medium">
+                                        年收益：¥120,000+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 技术与流程 -->
+            <section class="tech-bg text-white py-16">
+                <div class="container mx-auto px-6">
+                    <div class="max-w-4xl mx-auto">
+                        <div class="text-center mb-16">
+                            <h2 class="text-3xl md:text-4xl font-bold mb-4 serif">央企科技赋能遗产查询</h2>
+                            <div class="w-20 h-1 bg-white mx-auto mb-6"></div>
+                            <p class="max-w-2xl mx-auto">
+                                太平金融运用先进技术与专业流程，确保遗产查询的全面性与合法性
+                            </p>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <div class="text-center">
+                                <div
+                                    class="bg-white bg-opacity-20 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4"
+                                >
+                                    <i class="fas fa-database text-3xl"></i>
+                                </div>
+                                <h3 class="text-xl font-bold mb-3">大数据筛查</h3>
+                                <p class="text-white text-opacity-90">
+                                    接入合法数据源，全面筛查可能存在的金融资产、房产等信息
+                                </p>
+                            </div>
+
+                            <div class="text-center">
+                                <div
+                                    class="bg-white bg-opacity-20 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4"
+                                >
+                                    <i class="fas fa-fingerprint text-3xl"></i>
+                                </div>
+                                <h3 class="text-xl font-bold mb-3">身份核验</h3>
+                                <p class="text-white text-opacity-90">严格的身份核验流程，确保查询与继承的合法性</p>
+                            </div>
+
+                            <div class="text-center">
+                                <div
+                                    class="bg-white bg-opacity-20 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4"
+                                >
+                                    <i class="fas fa-shield-alt text-3xl"></i>
+                                </div>
+                                <h3 class="text-xl font-bold mb-3">隐私保护</h3>
+                                <p class="text-white text-opacity-90">严格保护客户隐私，所有查询过程加密处理</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-12 bg-white bg-opacity-10 rounded-lg p-8">
+                            <h3 class="text-xl font-bold mb-6 text-center">专业遗产查询流程</h3>
+                            <div class="flex flex-col md:flex-row justify-between items-center">
+                                <div class="flex flex-col items-center mb-6 md:mb-0">
+                                    <div
+                                        class="bg-white text-blue-800 rounded-full w-12 h-12 flex items-center justify-center font-bold mb-2"
+                                    >
+                                        1
+                                    </div>
+                                    <p class="font-medium">初步咨询</p>
+                                </div>
+                                <div class="hidden md:block">
+                                    <i class="fas fa-arrow-right text-white text-opacity-50"></i>
+                                </div>
+                                <div class="flex flex-col items-center mb-6 md:mb-0">
+                                    <div
+                                        class="bg-white text-blue-800 rounded-full w-12 h-12 flex items-center justify-center font-bold mb-2"
+                                    >
+                                        2
+                                    </div>
+                                    <p class="font-medium">授权委托</p>
+                                </div>
+                                <div class="hidden md:block">
+                                    <i class="fas fa-arrow-right text-white text-opacity-50"></i>
+                                </div>
+                                <div class="flex flex-col items-center mb-6 md:mb-0">
+                                    <div
+                                        class="bg-white text-blue-800 rounded-full w-12 h-12 flex items-center justify-center font-bold mb-2"
+                                    >
+                                        3
+                                    </div>
+                                    <p class="font-medium">资产查询</p>
+                                </div>
+                                <div class="hidden md:block">
+                                    <i class="fas fa-arrow-right text-white text-opacity-50"></i>
+                                </div>
+                                <div class="flex flex-col items-center mb-6 md:mb-0">
+                                    <div
+                                        class="bg-white text-blue-800 rounded-full w-12 h-12 flex items-center justify-center font-bold mb-2"
+                                    >
+                                        4
+                                    </div>
+                                    <p class="font-medium">结果反馈</p>
+                                </div>
+                                <div class="hidden md:block">
+                                    <i class="fas fa-arrow-right text-white text-opacity-50"></i>
+                                </div>
+                                <div class="flex flex-col items-center">
+                                    <div
+                                        class="bg-white text-blue-800 rounded-full w-12 h-12 flex items-center justify-center font-bold mb-2"
+                                    >
+                                        5
+                                    </div>
+                                    <p class="font-medium">过户协助</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 关于我们 -->
+            <section id="about" class="py-16 bg-white">
+                <div class="container mx-auto px-6">
+                    <div class="max-w-4xl mx-auto">
+                        <div class="text-center mb-16">
+                            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4 serif">央企情怀 · 专业服务</h2>
+                            <div class="w-20 h-1 bg-blue-700 mx-auto mb-6"></div>
+                            <p class="max-w-2xl mx-auto text-gray-600">太平金融服务有限公司，央企背景，值得信赖</p>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                            <div>
+                                <img
+                                    src="https://images.unsplash.com/photo-1521791055366-0d553872125f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                                    alt="太平金融团队"
+                                    class="rounded-lg shadow-xl"
+                                />
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold mb-6 text-gray-800">我们的价值观</h3>
+
+                                <div class="space-y-6">
+                                    <div class="flex items-start">
+                                        <div class="flex-shrink-0 mt-1">
+                                            <i class="fas fa-heart text-red-600"></i>
+                                        </div>
+                                        <div class="ml-4">
+                                            <h4 class="font-bold text-gray-800">央企情怀</h4>
+                                            <p class="text-gray-600 mt-1">秉承央企社会责任，为客户提供可信赖的服务</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-start">
+                                        <div class="flex-shrink-0 mt-1">
+                                            <i class="fas fa-user-tie text-blue-600"></i>
+                                        </div>
+                                        <div class="ml-4">
+                                            <h4 class="font-bold text-gray-800">客户至上</h4>
+                                            <p class="text-gray-600 mt-1">以客户需求为中心，提供个性化解决方案</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-start">
+                                        <div class="flex-shrink-0 mt-1">
+                                            <i class="fas fa-lightbulb text-yellow-500"></i>
+                                        </div>
+                                        <div class="ml-4">
+                                            <h4 class="font-bold text-gray-800">创新引领</h4>
+                                            <p class="text-gray-600 mt-1">运用科技手段提升服务效率与质量</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-start">
+                                        <div class="flex-shrink-0 mt-1">
+                                            <i class="fas fa-chart-line text-green-600"></i>
+                                        </div>
+                                        <div class="ml-4">
+                                            <h4 class="font-bold text-gray-800">价值导向</h4>
+                                            <p class="text-gray-600 mt-1">为客户创造真实可衡量的价值</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 联系表单 -->
+            <section id="contact" class="py-16 bg-gray-50">
+                <div class="container mx-auto px-6">
+                    <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+                        <div class="md:flex">
+                            <div class="md:w-1/2 bg-blue-700 text-white p-8 md:p-12 flex flex-col justify-center">
+                                <h2 class="text-2xl font-bold mb-4 serif">开启您的遗产查询之旅</h2>
+                                <p class="mb-6">
+                                    填写右侧表格，我们的专业顾问将在24小时内与您联系，为您提供免费咨询服务。
+                                </p>
+                                <div class="space-y-4">
+                                    <div class="flex items-start">
+                                        <div class="flex-shrink-0 mt-1">
+                                            <i class="fas fa-phone-alt"></i>
+                                        </div>
+                                        <div class="ml-3">
+                                            <h4 class="font-bold">客服热线</h4>
+                                            <p>400-888-XXXX</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <div class="flex-shrink-0 mt-1">
+                                            <i class="fas fa-envelope"></i>
+                                        </div>
+                                        <div class="ml-3">
+                                            <h4 class="font-bold">电子邮箱</h4>
+                                            <p>service@ec.cntaiping.com</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <div class="flex-shrink-0 mt-1">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                        </div>
+                                        <div class="ml-3">
+                                            <h4 class="font-bold">公司地址</h4>
+                                            <p>上海市徐汇区保利时光里B座7楼</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="md:w-1/2 p-8 md:p-12">
+                                <form id="contactForm">
+                                    <div class="mb-6">
+                                        <label for="name" class="block text-gray-700 font-medium mb-2">您的姓名</label>
+                                        <input
+                                            type="text"
+                                            id="name"
+                                            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        />
+                                    </div>
+                                    <div class="mb-6">
+                                        <label for="phone" class="block text-gray-700 font-medium mb-2">联系电话</label>
+                                        <input
+                                            type="tel"
+                                            id="phone"
+                                            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        />
+                                    </div>
+                                    <div class="mb-6">
+                                        <label for="service" class="block text-gray-700 font-medium mb-2"
+                                            >感兴趣的服务</label
+                                        >
+                                        <select
+                                            id="service"
+                                            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        >
+                                            <option value="">请选择服务项目</option>
+                                            <option value="search">未知遗产查询</option>
+                                            <option value="transfer">遗产过户代办</option>
+                                            <option value="management">财富管理</option>
+                                            <option value="memoir">老人回忆录</option>
+                                            <option value="other">其他服务</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-6">
+                                        <label for="message" class="block text-gray-700 font-medium mb-2"
+                                            >简要情况说明</label
+                                        >
+                                        <textarea
+                                            id="message"
+                                            rows="3"
+                                            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        ></textarea>
+                                    </div>
+                                    <button
+                                        type="submit"
+                                        class="w-full bg-blue-700 text-white py-3 px-4 rounded-md hover:bg-blue-800 transition duration-300 font-medium"
+                                    >
+                                        提交咨询
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 常见问题 -->
+            <section class="py-16 bg-white">
+                <div class="container mx-auto px-6">
+                    <div class="max-w-4xl mx-auto">
+                        <div class="text-center mb-16">
+                            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4 serif">常见问题解答</h2>
+                            <div class="w-20 h-1 bg-blue-700 mx-auto mb-6"></div>
+                        </div>
+
+                        <div class="space-y-6">
+                            <div class="border border-gray-200 rounded-lg overflow-hidden">
+                                <button
+                                    class="faq-toggle w-full flex justify-between items-center p-6 text-left hover:bg-gray-50 focus:outline-none"
+                                >
+                                    <h3 class="text-lg font-medium text-gray-800">遗产查询是否合法？</h3>
+                                    <i class="fas fa-chevron-down text-gray-500 transition-transform duration-300"></i>
+                                </button>
+                                <div class="faq-content hidden px-6 pb-6">
+                                    <p class="text-gray-600">
+                                        太平金融提供的遗产查询服务完全合法合规。我们要求委托人提供合法的授权文件和相关证明材料，通过正规渠道进行查询。所有查询过程严格遵守《个人信息保护法》等相关法律法规。
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="border border-gray-200 rounded-lg overflow-hidden">
+                                <button
+                                    class="faq-toggle w-full flex justify-between items-center p-6 text-left hover:bg-gray-50 focus:outline-none"
+                                >
+                                    <h3 class="text-lg font-medium text-gray-800">查询需要提供哪些材料？</h3>
+                                    <i class="fas fa-chevron-down text-gray-500 transition-transform duration-300"></i>
+                                </button>
+                                <div class="faq-content hidden px-6 pb-6">
+                                    <p class="text-gray-600 mb-4">一般情况下需要提供：</p>
+                                    <ul class="list-disc pl-5 space-y-2 text-gray-600">
+                                        <li>委托人身份证明</li>
+                                        <li>被查询人身份证明（如已故需提供死亡证明）</li>
+                                        <li>亲属关系证明</li>
+                                        <li>遗产继承相关法律文件（如遗嘱等）</li>
+                                        <li>授权委托书</li>
+                                    </ul>
+                                    <p class="text-gray-600 mt-4">
+                                        具体材料可能因个案不同有所调整，我们的顾问会为您详细说明。
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="border border-gray-200 rounded-lg overflow-hidden">
+                                <button
+                                    class="faq-toggle w-full flex justify-between items-center p-6 text-left hover:bg-gray-50 focus:outline-none"
+                                >
+                                    <h3 class="text-lg font-medium text-gray-800">查询需要多长时间？</h3>
+                                    <i class="fas fa-chevron-down text-gray-500 transition-transform duration-300"></i>
+                                </button>
+                                <div class="faq-content hidden px-6 pb-6">
+                                    <p class="text-gray-600">
+                                        查询时间因个案复杂程度不同而有所差异。一般情况下，基础金融资产查询约需7-15个工作日；涉及房产、股权等复杂资产的全面查询可能需要20-30个工作日。我们会在受理委托时为您预估具体时间。
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="border border-gray-200 rounded-lg overflow-hidden">
+                                <button
+                                    class="faq-toggle w-full flex justify-between items-center p-6 text-left hover:bg-gray-50 focus:outline-none"
+                                >
+                                    <h3 class="text-lg font-medium text-gray-800">如何收费？</h3>
+                                    <i class="fas fa-chevron-down text-gray-500 transition-transform duration-300"></i>
+                                </button>
+                                <div class="faq-content hidden px-6 pb-6">
+                                    <p class="text-gray-600">我们采用透明合理的收费模式：</p>
+                                    <ul class="list-disc pl-5 space-y-2 text-gray-600 mt-2">
+                                        <li>基础咨询免费</li>
+                                        <li>查询服务按实际工作量收费，前期会提供明确报价</li>
+                                        <li>成功查询到资产后收取合理比例的服务费（具体比例根据资产类型和金额确定）</li>
+                                        <li>不成功不收费（部分特殊查询除外）</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 页脚 -->
+            <footer class="bg-gray-900 text-white pt-16 pb-8">
+                <div class="container mx-auto px-6">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                        <div>
+                            <img
+                                src="https://www.itaiping.com/img/toplogo2.0e37a79a.png"
+                                alt="太平金融"
+                                class="h-12 mb-4"
+                                style="height: 36px"
+                            />
+                            <p class="text-gray-400 mb-4">
+                                太平金融服务有限公司，央企背景，专业遗产查询与财富管理服务提供商。
+                            </p>
+                            <div class="flex space-x-4">
+                                <a href="#" class="text-gray-400 hover:text-white"
+                                    ><i class="fab fa-weixin text-xl"></i
+                                ></a>
+                                <a href="#" class="text-gray-400 hover:text-white"
+                                    ><i class="fab fa-weibo text-xl"></i
+                                ></a>
+                                <a href="#" class="text-gray-400 hover:text-white"
+                                    ><i class="fas fa-qrcode text-xl"></i
+                                ></a>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-lg font-bold mb-4">服务项目</h3>
+                            <ul class="space-y-3">
+                                <li><a href="#" class="text-gray-400 hover:text-white">未知遗产查询</a></li>
+                                <li><a href="#" class="text-gray-400 hover:text-white">遗产过户代办</a></li>
+                                <li><a href="#" class="text-gray-400 hover:text-white">财富管理</a></li>
+                                <li><a href="#" class="text-gray-400 hover:text-white">老人回忆录</a></li>
+                                <li><a href="#" class="text-gray-400 hover:text-white">法律咨询服务</a></li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h3 class="text-lg font-bold mb-4">关于我们</h3>
+                            <ul class="space-y-3">
+                                <li><a href="#" class="text-gray-400 hover:text-white">公司简介</a></li>
+                                <li><a href="#" class="text-gray-400 hover:text-white">企业价值观</a></li>
+                                <li><a href="#" class="text-gray-400 hover:text-white">专业团队</a></li>
+                                <li><a href="#" class="text-gray-400 hover:text-white">合作伙伴</a></li>
+                                <li><a href="#" class="text-gray-400 hover:text-white">加入我们</a></li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h3 class="text-lg font-bold mb-4">联系方式</h3>
+                            <ul class="space-y-3 text-gray-400">
+                                <li class="flex items-start">
+                                    <i class="fas fa-map-marker-alt mt-1 mr-3"></i>
+                                    <span>上海市徐汇区保利时光里B座7楼</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-phone-alt mr-3"></i>
+                                    <span>400-888-XXXX</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-envelope mr-3"></i>
+                                    <span>service@ec.cntaiping.com</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-clock mr-3"></i>
+                                    <span>周一至周五 9:00-18:00</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-gray-800 pt-8">
+                        <div class="flex flex-col md:flex-row justify-between items-center">
+                            <p class="text-gray-500 text-sm mb-4 md:mb-0">© 2023 太平金融服务有限公司 版权所有</p>
+                            <div class="flex space-x-6">
+                                <a href="#" class="text-gray-500 hover:text-white text-sm">隐私政策</a>
+                                <a href="#" class="text-gray-500 hover:text-white text-sm">服务条款</a>
+                                <a href="#" class="text-gray-500 hover:text-white text-sm">法律声明</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+        <!-- 问答系统 -->
+        <div id="questionnairePage" class="questionnaire-container min-h-screen bg-gray-50 py-8">
+            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- 头部 -->
+                <div class="mb-8">
+                    <button
+                        id="backToLanding"
+                        class="flex items-center space-x-2 text-blue-600 hover:text-blue-800 transition-colors mb-4"
+                    >
+                        <i class="fas fa-arrow-left"></i>
+                        <span>返回主页</span>
+                    </button>
+
+                    <h1 class="text-3xl font-bold text-gray-900 mb-4">遗产查询引导问答</h1>
+
+                    <div class="progress-bar">
+                        <div id="progressFill" class="progress-fill" style="width: 0%"></div>
+                    </div>
+                    <div id="progressText" class="text-sm text-gray-600 mt-2 text-center">进度 1/13 (8%)</div>
+                </div>
+
+                <!-- 非亲属警告 -->
+                <div id="nonRelativeWarning" class="warning-box" style="display: none">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-exclamation-triangle text-red-400 text-xl"></i>
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="warning-title">无法继续查询</h3>
+                            <div class="warning-content">
+                                <p>
+                                    根据相关法律规定，非亲属无法查询他人的遗产信息。如果您是合法继承人，请重新选择正确的关系。如需了解更多信息，请联系我们的专业顾问。
+                                </p>
+                            </div>
+                            <div class="mt-4">
+                                <button
+                                    id="backToLandingFromWarning"
+                                    class="bg-red-100 text-red-800 px-4 py-2 rounded-md text-sm font-medium hover:bg-red-200 transition-colors"
+                                >
+                                    返回主页咨询
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 问题卡片 -->
+                <div id="questionCard" class="question-card">
+                    <div id="questionTitle" class="question-title"></div>
+                    <div id="questionHelp" class="question-help" style="display: none"></div>
+                    <div id="questionOptions" class="option-group"></div>
+                </div>
+
+                <!-- 导航按钮 -->
+                <div id="navigationButtons" class="flex justify-between items-center">
+                    <button id="prevButton" class="nav-button secondary" disabled>
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        上一步
+                    </button>
+
+                    <div id="questionCounter" class="text-sm text-gray-500">1 / 13</div>
+
+                    <button id="nextButton" class="nav-button primary" disabled>
+                        <span id="nextButtonText">下一步</span>
+                        <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+
+                <!-- 温馨提示 -->
+                <div class="mt-8 p-6 bg-blue-50 rounded-lg">
+                    <h3 class="font-semibold text-blue-900 mb-2">温馨提示</h3>
+                    <ul class="text-sm text-blue-800 space-y-1">
+                        <li>• 您的回答将自动保存，无需担心数据丢失</li>
+                        <li>• 所有信息将严格保密，仅用于为您提供专业建议</li>
+                        <li>• 完成问答后，您将获得个性化的遗产处理方案</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 结果页面 -->
+        <div id="resultsPage" class="results-container min-h-screen bg-gray-50 py-8">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- 头部 -->
+                <div class="mb-8">
+                    <button
+                        id="backToQuestionnaire"
+                        class="flex items-center space-x-2 text-blue-600 hover:text-blue-800 transition-colors mb-4"
+                    >
+                        <i class="fas fa-arrow-left"></i>
+                        <span>返回问答</span>
+                    </button>
+
+                    <div class="text-center">
+                        <h1 class="text-3xl font-bold text-gray-900 mb-4">为您推荐的查询方案</h1>
+                        <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                            根据您选择的遗产类型，我们为您匹配了以下专业查询方案。
+                            如需更详细的指导，请联系我们的专业团队。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 方案网格 -->
+                <div id="solutionsGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                    <!-- 方案卡片将通过JavaScript动态生成 -->
+                </div>
+
+                <!-- 操作按钮 -->
+                <div
+                    class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-8"
+                >
+                    <button
+                        id="restartQuestionnaire"
+                        class="px-8 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                    >
+                        返回修改信息
+                    </button>
+
+                    <button
+                        id="contactDeepCooperation"
+                        class="flex items-center space-x-2 px-8 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors"
+                    >
+                        <i class="fas fa-comments"></i>
+                        <span>联系深度合作</span>
+                    </button>
+                </div>
+
+                <!-- 回答总结 -->
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                    <h2 class="text-xl font-semibold text-gray-900 mb-4">您的回答总结</h2>
+                    <div id="answersSummary" class="grid md:grid-cols-2 gap-4">
+                        <!-- 回答总结将通过JavaScript动态生成 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 联系模态框 -->
+        <div id="contactModal" class="contact-modal">
+            <div class="contact-modal-content">
+                <div class="contact-modal-header">
+                    <h2 class="contact-modal-title">联系深度合作</h2>
+                    <button id="closeContactModal" class="contact-modal-close">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+
+                <div class="contact-modal-body">
+                    <div id="contactForm" style="display: block">
+                        <form id="deepCooperationForm">
+                            <div class="form-group">
+                                <label class="form-label">姓名 *</label>
+                                <input type="text" id="contactName" class="form-input" required />
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">联系电话 *</label>
+                                <input type="tel" id="contactPhone" class="form-input" required />
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">与逝者关系</label>
+                                <input
+                                    type="text"
+                                    id="contactRelationship"
+                                    class="form-input"
+                                    placeholder="例如：配偶、子女等"
+                                />
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">具体需求描述 *</label>
+                                <textarea
+                                    id="contactDescription"
+                                    class="form-input form-textarea"
+                                    placeholder="请详细描述您的遗产处理需求..."
+                                    required
+                                ></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">希望联系时间</label>
+                                <select id="contactTime" class="form-input">
+                                    <option value="">请选择</option>
+                                    <option value="morning">上午 (9:00-12:00)</option>
+                                    <option value="afternoon">下午 (14:00-17:00)</option>
+                                    <option value="evening">晚上 (19:00-21:00)</option>
+                                    <option value="anytime">任何时间</option>
+                                </select>
+                            </div>
+
+                            <div class="form-buttons">
+                                <button type="button" id="cancelContact" class="form-button secondary">取消</button>
+                                <button type="submit" class="form-button primary">提交</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div id="contactSuccess" class="success-message" style="display: none">
+                        <div class="success-title">提交成功！</div>
+                        <div class="success-content">我们将尽快与您联系，感谢您的信任</div>
+
+                        <!-- 微信二维码 -->
+                        <div class="qr-section">
+                            <div class="qr-header">
+                                <i class="fas fa-qrcode text-gray-600 text-2xl"></i>
+                                <span class="qr-title">扫码添加专属顾问微信</span>
+                            </div>
+                            <div class="text-center">
+                                <div class="qr-code-container">
+                                    <div class="qr-placeholder">
+                                        <i class="fas fa-qrcode text-gray-400 text-4xl mb-2"></i>
+                                        <div class="text-sm text-gray-500">微信二维码</div>
+                                        <div class="text-xs text-gray-400 mt-1">扫码获取专业咨询</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="qr-features">
+                                <p>• 专业遗产查询顾问一对一服务</p>
+                                <p>• 24小时内响应您的咨询</p>
+                                <p>• 免费提供初步评估方案</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // 问题数据
+            const questions = [
+                {
+                    id: 'relationship',
+                    type: 'select',
+                    question: '您与逝者的关系是什么？',
+                    help: '这将帮助我们确定您的继承权利和所需证明材料',
+                    options: ['配偶', '子女', '父母', '兄弟姐妹', '其他亲属', '非亲属'],
+                    required: true,
+                },
+                {
+                    id: 'living_together',
+                    type: 'select',
+                    question: '您是否与逝者长期共同生活（如同住超过3年）？',
+                    help: '共同生活情况有助于判断您对逝者财务状况的了解程度',
+                    options: ['是，共同生活超过5年', '是，3-5年', '否，仅偶尔探望', '否，长期异地'],
+                    required: true,
+                },
+                {
+                    id: 'financial_knowledge',
+                    type: 'select',
+                    question: '您对逝者的财务状况（如银行账户、投资、债务等）了解多少？',
+                    help: '了解程度将影响查询的重点和方向',
+                    options: [
+                        '完全不了解',
+                        '仅知道少量信息（如某张银行卡）',
+                        '了解大部分，但不确定是否有遗漏',
+                        '非常清楚（有详细清单）',
+                    ],
+                    required: true,
+                },
+                {
+                    id: 'evidence_possession',
+                    type: 'select',
+                    question: '您目前是否掌握任何与遗产相关的线索（如房产证、银行卡、保险单、合同等）？',
+                    help: '现有线索将帮助我们制定更精准的查询策略',
+                    options: ['无任何线索', '有少量纸质/电子凭证（但不完整）', '有较多线索，但不确定是否齐全'],
+                    required: true,
+                },
+                {
+                    id: 'estate_type',
+                    type: 'multiselect',
+                    question: '遗产类型可能包括哪些？（可多选）',
+                    help: '请选择所有可能适用的遗产类型',
+                    options: [
+                        '房产',
+                        '存款',
+                        '股票基金',
+                        '车辆',
+                        '保险',
+                        '债权债务',
+                        '虚拟财产',
+                        '其他财产（如股权、收藏品等）',
+                        '不清楚',
+                    ],
+                    required: true,
+                },
+                {
+                    id: 'phone_access',
+                    type: 'select',
+                    question: '您是否持有逝者的手机？是否知晓开机密码/支付密码？',
+                    help: '手机中可能包含重要的财务信息和线索',
+                    options: ['无手机', '有手机，但不知道密码', '有手机，知道密码但未查看过内容', '有手机且已初步查看'],
+                    required: true,
+                },
+                {
+                    id: 'death_certificate',
+                    type: 'select',
+                    question: '您是否已办理逝者的死亡证明？',
+                    help: '死亡证明是办理遗产相关手续的必要文件',
+                    options: ['未办理', '已办理（纸质版）', '已办理（电子版）', '不清楚办理流程'],
+                    required: true,
+                },
+                {
+                    id: 'relationship_proof',
+                    type: 'select',
+                    question: '您是否能便捷获取与逝者的亲属关系证明（如户口本、结婚证、出生证等）？',
+                    help: '亲属关系证明是继承权确认的重要依据',
+                    options: ['无法提供', '能提供，但需要跨部门办理（如派出所、民政局）', '能提供，材料齐全'],
+                    required: true,
+                },
+                {
+                    id: 'time_availability',
+                    type: 'select',
+                    question: '您目前是否有充足的时间和精力自主处理遗产相关事务（如跑部门、整理材料、协调继承人等）？',
+                    help: '时间和精力情况将影响我们为您推荐的服务方案',
+                    options: [
+                        '无时间（需工作/照顾家庭）',
+                        '有时间，但不确定能否应对复杂流程',
+                        '有时间且有信心自主处理',
+                    ],
+                    required: true,
+                },
+                {
+                    id: 'process_knowledge',
+                    type: 'select',
+                    question:
+                        '您是否了解遗产处理可能涉及的部门（如不动产登记中心、银行、公证处等）？是否接触过相关流程？',
+                    help: '流程了解程度将帮助我们提供更有针对性的指导',
+                    options: ['完全不了解', '听说过，但不清楚具体流程', '了解部分流程，但觉得很复杂'],
+                    required: true,
+                },
+                {
+                    id: 'heirs_count',
+                    type: 'select',
+                    question: '除您之外，预计还有多少位合法继承人（如逝者的其他子女、父母等）？',
+                    help: '继承人数量将影响遗产分配的复杂程度',
+                    options: ['无其他继承人', '1-2位', '3-5位', '5位以上', '不清楚（可能存在未知继承人）'],
+                    required: true,
+                },
+                {
+                    id: 'heirs_agreement',
+                    type: 'select',
+                    question: '您认为其他继承人之间对遗产分配的意见是否一致？',
+                    help: '继承人之间的关系状况将影响处理方案的选择',
+                    options: ['不确定，可能有分歧', '已有明显矛盾', '暂时和谐，但担心后续有纠纷', '完全一致'],
+                    required: true,
+                },
+                {
+                    id: 'urgency',
+                    type: 'select',
+                    question: '您希望多久完成全部遗产的查询、过户及分配？',
+                    help: '时间要求将影响我们为您制定的处理策略',
+                    options: ['1个月内', '3个月内', '6个月内', '1年以内', '无明确预期'],
+                    required: true,
+                },
+            ];
+
+            // 方案数据
+            const assetTypeSolutions = {
+                房产: [
+                    {
+                        id: 'real_estate_query',
+                        title: '房产查询方案',
+                        description: '全面查询逝者名下的房产信息，包括住宅、商业地产等',
+                        steps: [
+                            '收集逝者身份证明和死亡证明',
+                            '到不动产登记中心查询房产信息',
+                            '核实房产权属和抵押情况',
+                            '办理房产继承过户手续',
+                        ],
+                        materials: ['死亡证明书', '继承人身份证明', '亲属关系证明', '房产证或不动产权证', '继承公证书'],
+                        institutions: ['不动产登记中心', '公证处', '房产交易中心', '税务局'],
+                        contacts: {
+                            不动产登记中心: '咨询当地不动产登记中心，电话：12345',
+                            公证处: '咨询当地公证处，电话：12348',
+                            房产交易中心: '咨询当地房产交易中心',
+                            税务局: '咨询当地税务局，电话：12366',
+                        },
+                    },
+                ],
+                存款: [
+                    {
+                        id: 'bank_deposit_query',
+                        title: '银行存款查询方案',
+                        description: '查询逝者在各银行的存款、理财产品等金融资产',
+                        steps: [
+                            '准备相关证明材料',
+                            '到各大银行网点查询账户信息',
+                            '核实存款余额和理财产品',
+                            '办理存款继承手续',
+                        ],
+                        materials: ['死亡证明书', '继承人身份证', '亲属关系证明', '银行卡或存折', '继承公证书'],
+                        institutions: [
+                            '中国工商银行',
+                            '中国建设银行',
+                            '中国银行',
+                            '中国农业银行',
+                            '招商银行',
+                            '其他银行',
+                        ],
+                        contacts: {
+                            中国工商银行: '客服电话：95588',
+                            中国建设银行: '客服电话：95533',
+                            中国银行: '客服电话：95566',
+                            中国农业银行: '客服电话：95599',
+                            招商银行: '客服电话：95555',
+                            其他银行: '请咨询相应银行客服',
+                        },
+                    },
+                ],
+                股票基金: [
+                    {
+                        id: 'securities_query',
+                        title: '证券投资查询方案',
+                        description: '查询逝者的股票、基金、债券等证券投资账户',
+                        steps: [
+                            '准备继承相关证明材料',
+                            '到证券公司查询账户信息',
+                            '核实持有的股票、基金等资产',
+                            '办理证券账户继承过户',
+                        ],
+                        materials: ['死亡证明书', '继承人身份证', '亲属关系证明', '股东账户卡', '继承公证书'],
+                        institutions: ['中国证券登记结算公司', '各大证券公司', '基金公司', '银行理财部门'],
+                        contacts: {
+                            中国证券登记结算公司: '客服电话：400-808-9999',
+                            各大证券公司: '请咨询相应证券公司',
+                            基金公司: '请咨询相应基金公司',
+                            银行理财部门: '请咨询相应银行',
+                        },
+                    },
+                ],
+                车辆: [
+                    {
+                        id: 'vehicle_query',
+                        title: '车辆查询方案',
+                        description: '查询逝者名下的机动车辆并办理过户手续',
+                        steps: [
+                            '准备车辆继承相关材料',
+                            '到车管所查询车辆信息',
+                            '核实车辆状态和违章情况',
+                            '办理车辆继承过户手续',
+                        ],
+                        materials: [
+                            '死亡证明书',
+                            '继承人身份证',
+                            '亲属关系证明',
+                            '机动车登记证书',
+                            '行驶证',
+                            '继承公证书',
+                        ],
+                        institutions: ['车辆管理所', '公证处', '保险公司'],
+                        contacts: {
+                            车辆管理所: '咨询当地车管所，电话：12123',
+                            公证处: '咨询当地公证处，电话：12348',
+                            保险公司: '请咨询相应保险公司',
+                        },
+                    },
+                ],
+                保险: [
+                    {
+                        id: 'insurance_query',
+                        title: '保险产品查询方案',
+                        description: '查询逝者购买的各类保险产品并办理理赔',
+                        steps: [
+                            '收集保险相关证明材料',
+                            '联系各保险公司查询保单',
+                            '核实保险产品和受益人信息',
+                            '办理保险理赔手续',
+                        ],
+                        materials: ['死亡证明书', '保险合同', '受益人身份证明', '医院诊断证明', '理赔申请书'],
+                        institutions: ['中国人寿', '中国平安', '中国太保', '新华保险', '其他保险公司'],
+                        contacts: {
+                            中国人寿: '客服电话：95519',
+                            中国平安: '客服电话：95511',
+                            中国太保: '客服电话：95500',
+                            新华保险: '客服电话：95567',
+                            其他保险公司: '请咨询相应保险公司',
+                        },
+                    },
+                ],
+                债权债务: [
+                    {
+                        id: 'debt_query',
+                        title: '债权债务查询方案',
+                        description: '全面梳理逝者的债权债务关系',
+                        steps: [
+                            '收集相关债权债务证明',
+                            '联系债务人和债权人',
+                            '核实债权债务的真实性',
+                            '依法处理债权债务关系',
+                        ],
+                        materials: ['借条、欠条等债权凭证', '合同协议', '银行流水记录', '法院判决书', '公证书'],
+                        institutions: ['人民法院', '律师事务所', '公证处', '仲裁委员会'],
+                        contacts: {
+                            人民法院: '咨询当地人民法院',
+                            律师事务所: '咨询专业律师',
+                            公证处: '咨询当地公证处，电话：12348',
+                            仲裁委员会: '咨询当地仲裁委员会',
+                        },
+                    },
+                ],
+                虚拟财产: [
+                    {
+                        id: 'virtual_property_query',
+                        title: '虚拟财产查询方案',
+                        description: '查询数字货币、网络账户等虚拟财产',
+                        steps: ['收集数字资产相关信息', '联系相关平台客服', '提供继承证明材料', '按平台规则办理继承'],
+                        materials: ['死亡证明书', '继承人身份证明', '账户密码或私钥', '平台注册信息', '继承公证书'],
+                        institutions: ['数字货币交易所', '网络游戏公司', '电商平台', '社交媒体平台'],
+                        contacts: {
+                            数字货币交易所: '请咨询相应交易所客服',
+                            网络游戏公司: '请咨询相应游戏公司',
+                            电商平台: '请咨询相应平台客服',
+                            社交媒体平台: '请咨询相应平台客服',
+                        },
+                    },
+                ],
+                '其他财产（如股权、收藏品等）': [
+                    {
+                        id: 'other_property_query',
+                        title: '其他财产查询方案',
+                        description: '查询艺术品、收藏品、知识产权等特殊财产',
+                        steps: ['识别和评估特殊财产', '寻找专业评估机构', '办理财产鉴定和评估', '按法律程序办理继承'],
+                        materials: ['财产证明文件', '评估报告', '专业鉴定证书', '继承公证书', '相关合同协议'],
+                        institutions: ['专业评估机构', '拍卖行', '知识产权局', '文物部门'],
+                        contacts: {
+                            专业评估机构: '请咨询相关评估机构',
+                            拍卖行: '请咨询相关拍卖行',
+                            知识产权局: '咨询当地知识产权局',
+                            文物部门: '咨询当地文物部门',
+                        },
+                    },
+                ],
+            };
+
+            // 全局变量
+            let currentQuestionIndex = 0;
+            let answers = {};
+            let showNonRelativeWarning = false;
+
+            // 页面状态管理
+            const pages = {
+                landing: document.getElementById('landingPage'),
+                questionnaire: document.getElementById('questionnairePage'),
+                results: document.getElementById('resultsPage'),
+            };
+
+            // 显示指定页面
+            function showPage(pageName) {
+                Object.values(pages).forEach((page) => {
+                    page.style.display = 'none';
+                    page.classList.remove('active');
+                });
+
+                if (pages[pageName]) {
+                    pages[pageName].style.display = 'block';
+                    pages[pageName].classList.add('active');
+                }
+            }
+
+            // 开始问答
+            function startQuestionnaire() {
+                currentQuestionIndex = 0;
+                // 保留 answers，不再清空
+                showNonRelativeWarning = false;
+                showPage('questionnaire');
+                renderQuestion();
+            }
+
+            // 渲染问题
+            function renderQuestion() {
+                const question = questions[currentQuestionIndex];
+                const questionTitle = document.getElementById('questionTitle');
+                const questionHelp = document.getElementById('questionHelp');
+                const questionOptions = document.getElementById('questionOptions');
+                const progressFill = document.getElementById('progressFill');
+                const progressText = document.getElementById('progressText');
+                const questionCounter = document.getElementById('questionCounter');
+                const nextButtonText = document.getElementById('nextButtonText');
+                const nonRelativeWarning = document.getElementById('nonRelativeWarning');
+                const questionCard = document.getElementById('questionCard');
+                const navigationButtons = document.getElementById('navigationButtons');
+
+                // 更新进度
+                const progress = Math.round(((currentQuestionIndex + 1) / questions.length) * 100);
+                progressFill.style.width = `${progress}%`;
+                progressText.textContent = `进度 ${currentQuestionIndex + 1}/${questions.length} (${progress}%)`;
+                questionCounter.textContent = `${currentQuestionIndex + 1} / ${questions.length}`;
+
+                // 更新按钮文本
+                nextButtonText.textContent = currentQuestionIndex === questions.length - 1 ? '完成' : '下一步';
+
+                // 检查是否显示非亲属警告
+                if (question.id === 'relationship' && answers[question.id] === '非亲属') {
+                    showNonRelativeWarning = true;
+                } else {
+                    showNonRelativeWarning = false;
+                }
+
+                if (showNonRelativeWarning) {
+                    nonRelativeWarning.style.display = 'block';
+                    questionCard.style.display = 'none';
+                    navigationButtons.style.display = 'none';
+                    return;
+                } else {
+                    nonRelativeWarning.style.display = 'none';
+                    questionCard.style.display = 'block';
+                    navigationButtons.style.display = 'flex';
+                }
+
+                // 设置问题内容
+                questionTitle.textContent = question.question;
+
+                if (question.help) {
+                    questionHelp.textContent = question.help;
+                    questionHelp.style.display = 'block';
+                } else {
+                    questionHelp.style.display = 'none';
+                }
+
+                // 渲染选项
+                questionOptions.innerHTML = '';
+
+                if (question.type === 'select') {
+                    question.options.forEach((option) => {
+                        const optionDiv = document.createElement('div');
+                        optionDiv.className = 'option-item';
+                        optionDiv.innerHTML = `
+                        <input type="radio" name="question_${question.id}" value="${option}" id="option_${option}" ${
+                            answers[question.id] === option ? 'checked' : ''
+                        }>
+                        <label for="option_${option}" class="text-gray-700 cursor-pointer">${option}</label>
+                    `;
+                        optionDiv.addEventListener('click', () => {
+                            const radio = optionDiv.querySelector('input[type="radio"]');
+                            radio.checked = true;
+                            answers[question.id] = option;
+                            updateNavigationButtons();
+
+                            // 检查是否选择了非亲属
+                            if (question.id === 'relationship' && option === '非亲属') {
+                                showNonRelativeWarning = true;
+                                renderQuestion();
+                            }
+                        });
+                        questionOptions.appendChild(optionDiv);
+                    });
+                } else if (question.type === 'multiselect') {
+                    question.options.forEach((option) => {
+                        const optionDiv = document.createElement('div');
+                        optionDiv.className = 'option-item';
+                        const isChecked = Array.isArray(answers[question.id]) && answers[question.id].includes(option);
+                        optionDiv.innerHTML = `
+                        <input type="checkbox" value="${option}" id="option_${option}" ${isChecked ? 'checked' : ''}>
+                        <label for="option_${option}" class="text-gray-700 cursor-pointer">${option}</label>
+                    `;
+                        optionDiv.addEventListener('click', (e) => {
+                            if (e.target.type !== 'checkbox') {
+                                const checkbox = optionDiv.querySelector('input[type="checkbox"]');
+                                checkbox.checked = !checkbox.checked;
+                            }
+
+                            const checkbox = optionDiv.querySelector('input[type="checkbox"]');
+                            if (!Array.isArray(answers[question.id])) {
+                                answers[question.id] = [];
+                            }
+
+                            if (checkbox.checked) {
+                                if (!answers[question.id].includes(option)) {
+                                    answers[question.id].push(option);
+                                }
+                            } else {
+                                answers[question.id] = answers[question.id].filter((v) => v !== option);
+                            }
+
+                            updateNavigationButtons();
+                        });
+                        questionOptions.appendChild(optionDiv);
+                    });
+                }
+
+                updateNavigationButtons();
+            }
+
+            // 更新导航按钮状态
+            function updateNavigationButtons() {
+                const prevButton = document.getElementById('prevButton');
+                const nextButton = document.getElementById('nextButton');
+                const question = questions[currentQuestionIndex];
+
+                // 上一步按钮
+                prevButton.disabled = currentQuestionIndex === 0;
+
+                // 下一步按钮
+                const isAnswered = isCurrentQuestionAnswered();
+                nextButton.disabled = question.required && !isAnswered;
+
+                if (nextButton.disabled) {
+                    nextButton.classList.remove('primary');
+                    nextButton.classList.add('disabled');
+                    nextButton.style.backgroundColor = '#d1d5db';
+                    nextButton.style.color = '#9ca3af';
+                    nextButton.style.cursor = 'not-allowed';
+                } else {
+                    nextButton.classList.remove('disabled');
+                    nextButton.classList.add('primary');
+                    nextButton.style.backgroundColor = '#ea580c';
+                    nextButton.style.color = 'white';
+                    nextButton.style.cursor = 'pointer';
+                }
+            }
+
+            // 检查当前问题是否已回答
+            function isCurrentQuestionAnswered() {
+                const question = questions[currentQuestionIndex];
+                const answer = answers[question.id];
+
+                if (question.type === 'multiselect') {
+                    return Array.isArray(answer) && answer.length > 0;
+                }
+
+                return answer !== undefined && answer !== '';
+            }
+
+            // 下一步
+            function nextQuestion() {
+                const question = questions[currentQuestionIndex];
+
+                if (question.required && !isCurrentQuestionAnswered()) {
+                    return;
+                }
+
+                if (currentQuestionIndex < questions.length - 1) {
+                    currentQuestionIndex++;
+                    renderQuestion();
+                } else {
+                    showResults();
+                }
+            }
+
+            // 上一步
+            function prevQuestion() {
+                if (currentQuestionIndex > 0) {
+                    currentQuestionIndex--;
+                    showNonRelativeWarning = false;
+                    renderQuestion();
+                }
+            }
+
+            // 显示结果
+            function showResults() {
+                // 检查是否是非亲属
+                if (answers.relationship === '非亲属') {
+                    showNonRelativeResults();
+                    return;
+                }
+                onSurveyComplete(); // 新增：保存和提交
+                showPage('results');
+                renderResults();
+            }
+
+            // 显示非亲属结果
+            function showNonRelativeResults() {
+                const resultsPage = document.getElementById('resultsPage');
+                resultsPage.innerHTML = `
+                <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center">
+                        <div class="mb-8">
+                            <button id="backToQuestionnaireFromNonRelative" class="flex items-center space-x-2 text-blue-600 hover:text-blue-800 transition-colors mb-4">
+                                <i class="fas fa-arrow-left"></i>
+                                <span>返回问答</span>
+                            </button>
+                        </div>
+                        
+                        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-12">
+                            <div class="max-w-2xl mx-auto">
+                                <div class="mb-6">
+                                    <i class="fas fa-exclamation-triangle text-red-500 text-6xl"></i>
+                                </div>
+                                
+                                <h1 class="text-2xl font-bold text-gray-900 mb-4">
+                                    无法提供遗产查询服务
+                                </h1>
+                                
+                                <p class="text-lg text-gray-600 mb-6">
+                                    根据相关法律法规，非亲属无法查询他人的遗产信息。遗产查询服务仅限于合法继承人。
+                                </p>
+                                
+                                <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
+                                    <h3 class="font-semibold text-blue-900 mb-3">如果您是合法继承人</h3>
+                                    <ul class="text-sm text-blue-800 space-y-2 text-left">
+                                        <li>• 请重新填写问卷，选择正确的亲属关系</li>
+                                        <li>• 确保您具有合法的继承权利</li>
+                                        <li>• 准备相关的身份证明和亲属关系证明</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                                    <button id="restartFromNonRelative" class="px-8 py-3 bg-blue-700 text-white rounded-lg hover:bg-blue-800 transition-colors">
+                                        重新填写问卷
+                                    </button>
+                                    
+                                    <button id="contactFromNonRelative" class="flex items-center space-x-2 px-8 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                                        <i class="fas fa-comments"></i>
+                                        <span>咨询专业顾问</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+                showPage('results');
+
+                // 绑定事件
+                document.getElementById('backToQuestionnaireFromNonRelative').addEventListener('click', () => {
+                    showPage('questionnaire');
+                });
+
+                document.getElementById('restartFromNonRelative').addEventListener('click', () => {
+                    startQuestionnaire();
+                });
+
+                document.getElementById('contactFromNonRelative').addEventListener('click', () => {
+                    showContactModal();
+                });
+            }
+
+            // 渲染结果
+            function renderResults() {
+                const solutionsGrid = document.getElementById('solutionsGrid');
+                const answersSummary = document.getElementById('answersSummary');
+
+                // 获取推荐方案
+                const recommendedSolutions = matchSolutions();
+
+                // 渲染方案
+                solutionsGrid.innerHTML = '';
+                if (recommendedSolutions.length > 0) {
+                    recommendedSolutions.forEach((solution) => {
+                        const solutionCard = createSolutionCard(solution);
+                        solutionsGrid.appendChild(solutionCard);
+                    });
+                } else {
+                    solutionsGrid.innerHTML = `
+                    <div class="col-span-full text-center py-12">
+                        <p class="text-gray-500">暂无匹配的查询方案，请联系我们的专业顾问获取帮助。</p>
+                    </div>
+                `;
+                }
+
+                // 渲染回答总结
+                answersSummary.innerHTML = '';
+                const questionMap = {
+                    relationship: '与逝者关系',
+                    living_together: '共同生活情况',
+                    financial_knowledge: '财务状况了解',
+                    evidence_possession: '线索掌握情况',
+                    estate_type: '遗产类型',
+                    phone_access: '手机掌握情况',
+                    death_certificate: '死亡证明',
+                    relationship_proof: '关系证明',
+                    time_availability: '时间精力',
+                    process_knowledge: '流程了解',
+                    heirs_count: '其他继承人',
+                    heirs_agreement: '继承人关系',
+                    urgency: '处理时限',
+                };
+
+                Object.keys(answers).forEach((questionId) => {
+                    const questionText = questionMap[questionId];
+                    if (!questionText) return;
+
+                    let displayValue = '';
+                    const answer = answers[questionId];
+
+                    if (Array.isArray(answer)) {
+                        displayValue = answer.length > 0 ? answer.join('、') : '无';
+                    } else {
+                        displayValue = answer || '无';
+                    }
+
+                    const summaryItem = document.createElement('div');
+                    summaryItem.className = 'border-b border-gray-100 pb-2';
+                    summaryItem.innerHTML = `
+                    <dt class="text-sm font-medium text-gray-500">${questionText}</dt>
+                    <dd class="text-sm text-gray-900 mt-1">${displayValue}</dd>
+                `;
+                    answersSummary.appendChild(summaryItem);
+                });
+
+                // 新增：提交全部信息按钮
+                let submitBtn = document.getElementById('submitAllAnswersBtn');
+                if (!submitBtn) {
+                    submitBtn = document.createElement('button');
+                    submitBtn.id = 'submitAllAnswersBtn';
+                    submitBtn.className =
+                        'mt-6 w-full bg-orange-600 text-white py-3 px-4 rounded-lg hover:bg-orange-700 transition-colors font-medium block';
+                    submitBtn.innerText = '提交全部信息';
+                    answersSummary.appendChild(submitBtn);
+                }
+                submitBtn.onclick = function () {
+                    const jsonData = JSON.stringify(answers);
+                    console.log('提交JSON:', jsonData);
+                    fetch('https://httpbin.org/post', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: jsonData,
+                    })
+                        .then((res) => res.json())
+                        .then((data) => {
+                            alert('已提交！');
+                        })
+                        .catch((err) => {
+                            alert('提交失败');
+                        });
+                };
+            }
+
+            // 匹配方案
+            function matchSolutions() {
+                const estateTypes = answers.estate_type;
+
+                if (!Array.isArray(estateTypes)) {
+                    return [];
+                }
+
+                const matchedSolutions = [];
+
+                // 如果选择了"不清楚"，返回所有方案
+                if (estateTypes.includes('不清楚')) {
+                    Object.values(assetTypeSolutions).forEach((typeSolutions) => {
+                        matchedSolutions.push(...typeSolutions);
+                    });
+                } else {
+                    // 根据具体选择的类型返回方案
+                    estateTypes.forEach((assetType) => {
+                        const typeSolutions = assetTypeSolutions[assetType];
+                        if (typeSolutions) {
+                            matchedSolutions.push(...typeSolutions);
+                        }
+                    });
+                }
+
+                // 去重
+                const uniqueSolutions = matchedSolutions.filter(
+                    (solution, index, self) => index === self.findIndex((s) => s.id === solution.id)
+                );
+
+                return uniqueSolutions;
+            }
+
+            // 创建方案卡片
+            function createSolutionCard(solution) {
+                const card = document.createElement('div');
+                card.className = 'solution-card';
+
+                card.innerHTML = `
+                <div class="flex justify-between items-start mb-4">
+                    <h3 class="solution-title">${solution.title}</h3>
+                    <div class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-medium">
+                        推荐
+                    </div>
+                </div>
+
+                <p class="solution-description">${solution.description}</p>
+
+                <div class="space-y-3 mb-6">
+                    <div class="flex items-start space-x-2">
+                        <i class="fas fa-file-text text-gray-400 mt-1"></i>
+                        <div>
+                            <div class="text-sm font-medium text-gray-700">主要步骤</div>
+                            <ul class="text-sm text-gray-600 mt-1">
+                                ${solution.steps
+                                    .slice(0, 2)
+                                    .map(
+                                        (step) => `
+                                    <li class="flex items-start">
+                                        <span class="text-blue-600 mr-2">•</span>
+                                        <span>${step}</span>
+                                    </li>
+                                `
+                                    )
+                                    .join('')}
+                                ${
+                                    solution.steps.length > 2
+                                        ? `
+                                    <li class="text-gray-500 italic">
+                                        ...还有 ${solution.steps.length - 2} 个步骤
+                                    </li>
+                                `
+                                        : ''
+                                }
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-2">
+                        <i class="fas fa-building text-gray-400 mt-1"></i>
+                        <div>
+                            <div class="text-sm font-medium text-gray-700">涉及机构</div>
+                            <div class="text-sm text-gray-600 mt-1">
+                                ${solution.institutions.slice(0, 3).join('、')}${
+                    solution.institutions.length > 3 ? '等' : ''
+                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="w-full bg-blue-800 text-white py-3 px-4 rounded-lg hover:bg-blue-900 transition-colors flex items-center justify-center space-x-2" onclick="showSolutionDetail('${
+                    solution.id
+                }')">
+                    <span>查看详情</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            `;
+
+                return card;
+            }
+
+            // 显示方案详情
+            function showSolutionDetail(solutionId) {
+                // 找到对应的方案
+                let solution = null;
+                Object.values(assetTypeSolutions).forEach((typeSolutions) => {
+                    const found = typeSolutions.find((s) => s.id === solutionId);
+                    if (found) solution = found;
+                });
+
+                if (!solution) return;
+
+                const resultsPage = document.getElementById('resultsPage');
+                resultsPage.innerHTML = `
+                <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="mb-6">
+                        <button id="backToSolutionsList" class="flex items-center space-x-2 text-blue-600 hover:text-blue-800 transition-colors">
+                            <i class="fas fa-arrow-left"></i>
+                            <span>返回方案列表</span>
+                        </button>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+                        <div class="mb-8">
+                            <h1 class="text-3xl font-bold text-gray-900 mb-4">${solution.title}</h1>
+                            <p class="text-lg text-gray-600">${solution.description}</p>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div>
+                                <h2 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                                    <i class="fas fa-check-circle text-green-600 mr-2"></i>
+                                    操作步骤
+                                </h2>
+                                <div class="space-y-3">
+                                    ${solution.steps
+                                        .map(
+                                            (step, index) => `
+                                        <div class="flex items-start space-x-3">
+                                            <div class="bg-blue-100 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center text-sm font-medium flex-shrink-0">
+                                                ${index + 1}
+                                            </div>
+                                            <p class="text-gray-700">${step}</p>
+                                        </div>
+                                    `
+                                        )
+                                        .join('')}
+                                </div>
+                            </div>
+
+                            <div>
+                                <h2 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                                    <i class="fas fa-file-text text-blue-600 mr-2"></i>
+                                    所需材料
+                                </h2>
+                                <div class="space-y-2">
+                                    ${solution.materials
+                                        .map(
+                                            (material) => `
+                                        <div class="flex items-center space-x-2">
+                                            <div class="w-2 h-2 bg-blue-600 rounded-full"></div>
+                                            <span class="text-gray-700">${material}</span>
+                                        </div>
+                                    `
+                                        )
+                                        .join('')}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 pt-8 border-t border-gray-200">
+                            <h2 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                                <i class="fas fa-building text-orange-600 mr-2"></i>
+                                涉及机构及联系方式
+                            </h2>
+                            <div class="grid md:grid-cols-2 gap-4">
+                                ${solution.institutions
+                                    .map(
+                                        (institution) => `
+                                    <div class="bg-gray-50 p-4 rounded-lg">
+                                        <div class="flex items-center space-x-2 mb-2">
+                                            <i class="fas fa-building text-gray-500"></i>
+                                            <span class="font-medium text-gray-900">${institution}</span>
+                                        </div>
+                                        <div class="text-sm text-gray-600">
+                                            <div class="flex items-center space-x-1">
+                                                <i class="fas fa-phone text-xs"></i>
+                                                <span>
+                                                    ${
+                                                        solution.contacts && solution.contacts[institution]
+                                                            ? solution.contacts[institution]
+                                                            : '请咨询当地相关部门'
+                                                    }
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `
+                                    )
+                                    .join('')}
+                            </div>
+                        </div>
+
+                        <div class="mt-8 p-6 bg-blue-50 rounded-lg">
+                            <h3 class="font-semibold text-blue-900 mb-2">温馨提示</h3>
+                            <ul class="text-sm text-blue-800 space-y-1">
+                                <li>• 建议提前准备所有必需材料，避免多次跑腿</li>
+                                <li>• 如遇复杂情况，建议咨询专业法律顾问</li>
+                                <li>• 各地政策可能有差异，请以当地规定为准</li>
+                                <li>• 办理过程中保留好所有凭证和文件</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+                // 绑定返回按钮事件
+                document.getElementById('backToSolutionsList').addEventListener('click', () => {
+                    showResults();
+                });
+            }
+
+            // 显示联系模态框
+            function showContactModal() {
+                const modal = document.getElementById('contactModal');
+                const contactForm = document.getElementById('contactForm');
+                const contactSuccess = document.getElementById('contactSuccess');
+
+                // 重置模态框状态
+                contactForm.style.display = 'block';
+                contactSuccess.style.display = 'none';
+
+                // 预填充关系信息
+                const relationshipInput = document.getElementById('contactRelationship');
+                if (answers.relationship && answers.relationship !== '非亲属') {
+                    relationshipInput.value = answers.relationship;
+                }
+
+                modal.classList.add('active');
+            }
+
+            // 隐藏联系模态框
+            function hideContactModal() {
+                const modal = document.getElementById('contactModal');
+                modal.classList.remove('active');
+            }
+
+            // 提交联系表单
+            function submitContactForm(e) {
+                e.preventDefault();
+
+                const formData = {
+                    name: document.getElementById('contactName').value,
+                    phone: document.getElementById('contactPhone').value,
+                    relationship: document.getElementById('contactRelationship').value,
+                    description: document.getElementById('contactDescription').value,
+                    time: document.getElementById('contactTime').value,
+                };
+
+                console.log('Contact form submitted:', formData);
+
+                // 显示成功页面
+                const contactForm = document.getElementById('contactForm');
+                const contactSuccess = document.getElementById('contactSuccess');
+
+                contactForm.style.display = 'none';
+                contactSuccess.style.display = 'block';
+
+                // 5秒后自动关闭
+                setTimeout(() => {
+                    hideContactModal();
+                }, 5000);
+            }
+
+            // 事件绑定
+            document.addEventListener('DOMContentLoaded', function () {
+                // 开始问答按钮
+                document.getElementById('startQuestionnaireBtn').addEventListener('click', startQuestionnaire);
+                document.getElementById('heroQuestionnaireBtn').addEventListener('click', startQuestionnaire);
+                document.querySelectorAll('.start-questionnaire').forEach((btn) => {
+                    btn.addEventListener('click', startQuestionnaire);
+                });
+
+                // 返回主页
+                document.getElementById('backToLanding').addEventListener('click', () => {
+                    showPage('landing');
+                });
+
+                document.getElementById('backToLandingFromWarning').addEventListener('click', () => {
+                    showPage('landing');
+                });
+
+                // 导航按钮
+                document.getElementById('prevButton').addEventListener('click', prevQuestion);
+                document.getElementById('nextButton').addEventListener('click', nextQuestion);
+
+                // 结果页面按钮
+                document.getElementById('backToQuestionnaire').addEventListener('click', () => {
+                    showPage('questionnaire');
+                });
+
+                document.getElementById('restartQuestionnaire').addEventListener('click', startQuestionnaire);
+                document.getElementById('contactDeepCooperation').addEventListener('click', showContactModal);
+
+                // 联系模态框
+                document.getElementById('closeContactModal').addEventListener('click', hideContactModal);
+                document.getElementById('cancelContact').addEventListener('click', hideContactModal);
+                document.getElementById('deepCooperationForm').addEventListener('submit', submitContactForm);
+
+                // 点击模态框外部关闭
+                document.getElementById('contactModal').addEventListener('click', (e) => {
+                    if (e.target.id === 'contactModal') {
+                        hideContactModal();
+                    }
+                });
+
+                // FAQ切换功能
+                document.querySelectorAll('.faq-toggle').forEach((button) => {
+                    button.addEventListener('click', () => {
+                        const content = button.nextElementSibling;
+                        const icon = button.querySelector('i');
+
+                        content.classList.toggle('hidden');
+                        icon.classList.toggle('transform');
+                        icon.classList.toggle('rotate-180');
+                    });
+                });
+
+                // 平滑滚动
+                document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+                    anchor.addEventListener('click', function (e) {
+                        e.preventDefault();
+
+                        const target = document.querySelector(this.getAttribute('href'));
+                        if (target) {
+                            target.scrollIntoView({
+                                behavior: 'smooth',
+                            });
+                        }
+                    });
+                });
+
+                // 联系表单提交
+                const contactForm = document.getElementById('contactForm');
+                if (contactForm) {
+                    contactForm.addEventListener('submit', (e) => {
+                        e.preventDefault();
+                        alert('感谢您的咨询，我们的专业顾问将尽快与您联系！');
+                        contactForm.reset();
+                    });
+                }
+
+                // 初始显示主页
+                showPage('landing');
+
+                loadQuestionnaireState();
+                if (Object.keys(answers).length > 0) {
+                    // 如果已经做完，直接跳转到结果页
+                    if (answers.relationship && currentQuestionIndex >= questions.length) {
+                        showPage('results');
+                        renderResults();
+                    } else {
+                        // 恢复到上次进度
+                        showPage('questionnaire');
+                        renderQuestion();
+                    }
+                } else {
+                    showPage('landing');
+                }
+
+                // 检查本地存储
+                const localData = getSurveyFromLocal();
+                if (localData && localData.answers) {
+                    answers = localData.answers;
+                    // 只推荐银行存款查询方案
+                    showPage('results');
+                    renderBankDepositOnly();
+                    return;
+                }
+            });
+
+            // 全局函数（供HTML调用）
+            window.showSolutionDetail = showSolutionDetail;
+
+            function saveQuestionnaireState() {
+                sessionStorage.setItem('questionnaire_answers', JSON.stringify(answers));
+                sessionStorage.setItem('questionnaire_index', currentQuestionIndex);
+            }
+
+            function loadQuestionnaireState() {
+                const savedAnswers = sessionStorage.getItem('questionnaire_answers');
+                const savedIndex = sessionStorage.getItem('questionnaire_index');
+                if (savedAnswers) {
+                    answers = JSON.parse(savedAnswers);
+                }
+                if (savedIndex) {
+                    currentQuestionIndex = parseInt(savedIndex, 10);
+                }
+            }
+
+            function clearQuestionnaireState() {
+                sessionStorage.removeItem('questionnaire_answers');
+                sessionStorage.removeItem('questionnaire_index');
+            }
+
+            // ===== 新增：localStorage 工具函数和 userId 生成 =====
+            function getUserId() {
+                let userId = localStorage.getItem('userId');
+                if (!userId) {
+                    userId = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : (Math.random().toString(36).substr(2, 9) + Date.now());
+                    localStorage.setItem('userId', userId);
+                }
+                return userId;
+            }
+
+            function saveSurveyToLocal(answers) {
+                const data = {
+                    userId: getUserId(),
+                    answers,
+                    timestamp: Date.now()
+                };
+                localStorage.setItem('surveyData', JSON.stringify(data));
+            }
+
+            function getSurveyFromLocal() {
+                const data = localStorage.getItem('surveyData');
+                if (!data) return null;
+                try {
+                    const parsed = JSON.parse(data);
+                    // 一周内有效
+                    if (Date.now() - parsed.timestamp < 7 * 24 * 60 * 60 * 1000) {
+                        return parsed;
+                    } else {
+                        localStorage.removeItem('surveyData');
+                        return null;
+                    }
+                } catch {
+                    return null;
+                }
+            }
+
+            function submitSurveyToServer(answers) {
+                const userId = getUserId();
+                // 构建 info 字段为对象
+                const info = {};
+                questions.forEach(q => {
+                    info[q.id] = {
+                        question: q.question,
+                        options: q.options,
+                        answer: answers[q.id]
+                    };
+                });
+                fetch('/info/save', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id: userId, info })
+                }).then(res => res.json()).then(data => {
+                    // 可选：处理返回
+                });
+            }
+
+            // ===== 新增：问卷完成时保存和提交 =====
+            let surveySubmitted = false;
+            function onSurveyComplete() {
+                if (surveySubmitted) return;
+                saveSurveyToLocal(answers);
+                submitSurveyToServer(answers);
+                surveySubmitted = true;
+            }
+
+            // ===== 新增：只推荐银行存款查询方案 =====
+            function renderBankDepositOnly() {
+                const solutionsGrid = document.getElementById('solutionsGrid');
+                const answersSummary = document.getElementById('answersSummary');
+                // 只显示银行存款查询方案
+                const bankSolution = assetTypeSolutions['存款'][0];
+                solutionsGrid.innerHTML = '';
+                solutionsGrid.appendChild(createSolutionCard(bankSolution));
+
+                // 渲染回答总结
+                answersSummary.innerHTML = '';
+                const questionMap = {
+                    relationship: '与逝者关系',
+                    living_together: '共同生活情况',
+                    financial_knowledge: '财务状况了解',
+                    evidence_possession: '线索掌握情况',
+                    estate_type: '遗产类型',
+                    phone_access: '手机掌握情况',
+                    death_certificate: '死亡证明',
+                    relationship_proof: '关系证明',
+                    time_availability: '时间精力',
+                    process_knowledge: '流程了解',
+                    heirs_count: '其他继承人',
+                    heirs_agreement: '继承人关系',
+                    urgency: '处理时限',
+                };
+                Object.keys(answers).forEach((questionId) => {
+                    const questionText = questionMap[questionId];
+                    if (!questionText) return;
+                    let displayValue = '';
+                    const answer = answers[questionId];
+                    if (Array.isArray(answer)) {
+                        displayValue = answer.length > 0 ? answer.join('、') : '无';
+                    } else {
+                        displayValue = answer || '无';
+                    }
+                    const summaryItem = document.createElement('div');
+                    summaryItem.className = 'border-b border-gray-100 pb-2';
+                    summaryItem.innerHTML = `
+                    <dt class="text-sm font-medium text-gray-500">${questionText}</dt>
+                    <dd class="text-sm text-gray-900 mt-1">${displayValue}</dd>
+                `;
+                    answersSummary.appendChild(summaryItem);
+                });
+            }
+        </script>
+    </body>
+</html>

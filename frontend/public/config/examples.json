@@ -1,0 +1,32 @@
+[
+  {
+    "name": "1-1",
+    "label": "一级目录",
+    "examples": [
+      {
+        "name": "start",
+        "label": "开始"
+      },
+      {
+        "name": "online_code",
+        "label": "在线开发"
+      }
+    ]
+  },
+  {
+    "name": "1-2",
+    "label": "一级目录",
+    "children": [
+      {
+        "name": "2-1",
+        "label": "二级目录",
+        "examples": [
+          {
+            "name": "start",
+            "label": "开始"
+          }
+        ]
+      }
+    ]
+  }
+]
