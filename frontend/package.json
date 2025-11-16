@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev -H 0.0.0.0 --turbopack",
     "build": "next build",
-    "build:static": "next build && echo Build complete! Static files are in the 'out' directory",
+    "build:root": "copy next.config.root.js next.config.js && next build && echo Build complete for root deployment!",
+    "build:subdirectory": "copy next.config.subdirectory.js next.config.js && next build && echo Build complete for subdirectory deployment!",
+    "build:cdn": "copy next.config.cdn.js next.config.js && next build && echo Build complete for CDN deployment!",
     "start": "next start",
     "lint": "bunx tsc --noEmit && next lint",
     "format": "bunx biome format --write",

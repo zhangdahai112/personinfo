@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Navigation } from "@/components/Navigation"
 import { Footer } from "@/components/Footer"
@@ -10,7 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { usePayment, type PaymentOrder } from "@/contexts/PaymentContext"
 import { Search, CheckCircle, Clock, XCircle, AlertCircle } from "lucide-react"
 
-export default function PaymentStatusPage() {
+function PaymentStatusContent() {
   const { getOrderById, queryPaymentStatus } = usePayment()
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -281,5 +281,17 @@ export default function PaymentStatusPage() {
 
       <Footer />
     </div>
+  )
+}
+
+export default function PaymentStatusPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
+      </div>
+    }>
+      <PaymentStatusContent />
+    </Suspense>
   )
 }

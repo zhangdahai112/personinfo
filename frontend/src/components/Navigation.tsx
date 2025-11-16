@@ -11,10 +11,10 @@ export function Navigation() {
   const { user, logout } = useUser()
 
   const navItems = [
-    { name: "首页", href: "/" },
-    { name: "咨询服务", href: "/consultation" },
-    { name: "查询服务", href: "/search" },
-    { name: "隐私保护", href: "/privacy" },
+    { name: "首页", href: "/personinfo" },
+    { name: "咨询服务", href: "/personinfo/consultation" },
+    { name: "查询服务", href: "/personinfo/search" },
+    { name: "隐私保护", href: "/personinfo/privacy" },
   ]
 
   return (
@@ -39,13 +39,13 @@ export function Navigation() {
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-8">
               {navItems.map((item) => (
-                <a
+                <Link
                   key={item.name}
                   href={item.href}
                   className="text-gray-600 hover:text-red-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
                 >
                   {item.name}
-                </a>
+                </Link>
               ))}
             </div>
           </div>
@@ -103,19 +103,21 @@ export function Navigation() {
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t border-red-100">
               {navItems.map((item) => (
-                <a
+                <Link
                   key={item.name}
                   href={item.href}
                   className="text-gray-600 hover:text-red-600 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item.name}
-                </a>
+                </Link>
               ))}
               <div className="pt-4">
-                <Button variant="chinese" className="w-full rounded-full">
-                  开始查询
-                </Button>
+                <Link href="/questionnaire">
+                  <Button variant="chinese" className="w-full rounded-full">
+                    开始查询
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>

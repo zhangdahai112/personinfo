@@ -107,7 +107,7 @@ export default function SearchPage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
               <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-                专业<span className="chinese-gradient bg-clip-text text-transparent">查询服务</span>
+                专业查询服务
               </h1>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
                 全流程专业查询服务，从委托协议签订到结果报告出具，

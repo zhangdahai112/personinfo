@@ -127,6 +127,7 @@ export default function NewQueryPage() {
       })
 
       alert("查询申请已提交！请前往支付页面完成付款。")
+      // Use router.push instead of location.href for client-side navigation
       router.push("/payment")
     } catch (error) {
       alert("提交失败，请重试")

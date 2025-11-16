@@ -163,7 +163,7 @@ export default function PrivacyPage() {
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
               <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-                <span className="chinese-gradient bg-clip-text text-transparent">隐私保护</span>
+                隐私保护
               </h1>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
                 我们严格依据《个人信息保护法》等中国法律法规，

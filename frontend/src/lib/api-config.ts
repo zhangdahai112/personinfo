@@ -3,12 +3,25 @@
  * Centralized configuration for all API endpoints
  */
 
-// Backend API URL (can be configured via environment variable)
-// For production, set NEXT_PUBLIC_API_URL in your environment
-// Example: NEXT_PUBLIC_API_URL=https://your-domain.com/personinfo/api
+// Backend API URL configuration
+// Development: http://localhost:8080/api (no context path)
+// Production: http://localhost:8080/personinfo/api (with context path)
+const getDefaultApiUrl = () => {
+  // If environment variable is set, use it
+  if (process.env.NEXT_PUBLIC_API_URL) {
+    return process.env.NEXT_PUBLIC_API_URL
+  }
+  
+  // Development vs Production
+  const isDevelopment = process.env.NODE_ENV === 'development'
+  return isDevelopment 
+    ? 'http://localhost:8080/api'
+    : 'http://localhost:8080/personinfo/api'
+}
+
 const API_URL = typeof window !== 'undefined' 
-  ? (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/personinfo/api')
-  : 'http://localhost:8080/personinfo/api'
+  ? getDefaultApiUrl()
+  : getDefaultApiUrl()
 
 // API Base Path (for static export, use full backend URL)
 export const API_BASE_PATH = API_URL
