@@ -24,7 +24,7 @@ public class CorsConfig {
         // Allow specific origins (update with your production frontend domain)
         config.addAllowedOrigin("http://localhost:3000"); // Development
         config.addAllowedOrigin("http://127.0.0.1:3000"); // Development
-        // config.addAllowedOrigin("https://your-frontend-domain.com"); // Production
+         config.addAllowedOrigin("https://zhiz.com.cn"); // Production
         
         // Allow all headers
         config.addAllowedHeader("*");
