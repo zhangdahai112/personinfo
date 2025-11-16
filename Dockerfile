@@ -8,6 +8,5 @@ RUN cd server && gradle build
 FROM eclipse-temurin:17-jre-jammy
 WORKDIR /app
 COPY --from=builder /app/server/build/libs/server-0.0.1-SNAPSHOT.jar /app/server.jar
-COPY server/src/main/resources/static /app/server/src/main/resources/static
 EXPOSE 8080
 CMD ["java", "-jar", "/app/server.jar"]
