@@ -1,12 +1,10 @@
 /** @type {import('next').NextConfig} */
-// Dynamic basePath configuration
-// Development: no basePath (root path)
-// Production: uses /personinfo basePath
+// Configuration for deploying to subdirectory (e.g., https://example.com/personinfo/)
 const nextConfig = {
     output: 'export',
-
-      // Set asset prefix to CDN URL or absolute domain
-    assetPrefix: process.env.NEXT_PUBLIC_ASSET_PREFIX || 'http://localhost:3000',
+    
+    // Set base path for subdirectory deployment
+    basePath: '/personinfo',
     
     images: {
         unoptimized: true,
